@@ -66,11 +66,10 @@ public class ParamControllerAdvisor extends RequestBodyAdviceAdapter {
                     return method.getName().substring(3);
                 }
             });
-            SupportFirstUpperChar ann = (SupportFirstUpperChar)parameter.getParameterAnnotation(SupportFirstUpperChar.class);
-            Assert.state(ann != null, "No JsonView annotation");
-            Class<?>[] classes = ann.value();
             try {
-                body=newobjectMapper.readValue(data,classes[1]);
+                Class<?> parameterType = parameter.getParameterType();
+                body=newobjectMapper.readValue(data,parameterType);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -52,26 +52,31 @@ public class MyRequestResponseBodyMethodProcessor extends AbstractMessageConvert
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return  (  parameter.hasParameterAnnotation(RequestBody.class)&&parameter.hasParameterAnnotation(SupportFirstUpperChar.class));
+//        return  (  parameter.hasParameterAnnotation(RequestBody.class)&&parameter.hasParameterAnnotation(SupportFirstUpperChar.class));
+        return  (  parameter.hasParameterAnnotation(RequestBody.class));
     }
 
 
     @Override
     public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer, NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
 
-        Object nativeRequest = webRequest.getNativeRequest();
         boolean flag=true;
-        if (nativeRequest instanceof ServletServerHttpRequest){
-            ServletServerHttpRequest request=(ServletServerHttpRequest)nativeRequest;
-            List<String> x_support_first_upper_chars = request.getHeaders().get("x_support_first_upper_char");
-            if ("supoort_no".equals(x_support_first_upper_chars.get(0))){
-                flag=false;
-            }
+
+        HttpServletRequest servletRequest = (HttpServletRequest)webRequest.getNativeRequest(HttpServletRequest.class);
+        String x_support_first_upper_chars = servletRequest.getHeader("x_support_first_upper_char");
+        if ("supoort".equals(x_support_first_upper_chars)){
+            flag=false;
         }
+        String reqFlag=servletRequest.getParameter("support");
+        if (reqFlag.equals("support")){
+            flag=false;
+        }
+
 
         Object arg = null;
         String name=null;
-        if (flag&&parameter.hasParameterAnnotation(RequestBody.class) && (!parameter.hasParameterAnnotation(SupportFirstUpperChar.class))) {
+        //if (flag&&parameter.hasParameterAnnotation(RequestBody.class) && (!parameter.hasParameterAnnotation(SupportFirstUpperChar.class)))
+        if (flag) {
             /** advisor切面作用在这个方法上的  ：**/
             arg = this.readWithMessageConverters(webRequest, parameter, parameter.getNestedGenericParameterType());
             name = Conventions.getVariableNameForParameter(parameter);

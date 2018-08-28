@@ -4,22 +4,22 @@ import java.io.Serializable;
 
 public class UserDto implements Serializable {
 
-    private String UserId;
-    private String Password;
+    private String userId;
+    private String password;
 
     public String getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(String userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 }

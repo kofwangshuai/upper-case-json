@@ -13,14 +13,14 @@ public class TestJacksonController {
 
     @RequestMapping("/testJackson")
 
-    public Object  testJacksonM(@RequestBody Dewooo userDto){
+    public Dewooo  testJacksonM(@RequestBody Dewooo userDto){
 
         return  userDto;
     }
 
     @RequestMapping("/testJackson2")
 
-    public Object  testJacksonM2(@RequestBody @SupportFirstUpperChar({String.class,UserDto.class}) UserDto userDto){
+    public UserDto  testJacksonM2(@RequestBody  UserDto userDto){
 
         return  userDto;
     }
